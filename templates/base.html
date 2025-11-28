@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} · {{ site_title }}{% else %}{{ site_title }}{% endif %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrapper header-inner">
+      <a href="{{ url_for('blog_index') }}" class="brand-mark">fabio.io blog</a>
+      <nav class="nav">
+        {% for link in nav_links %}
+          <a href="{{ link.url }}" class="nav-link" {% if link.target=='_blank' %}target="_blank" rel="noopener"{% endif %}>{{ link.label }}</a>
+        {% endfor %}
+        {% if is_authenticated() %}
+          <a href="{{ url_for('admin_posts') }}" class="nav-link admin-link">Admin</a>
+          <a href="{{ url_for('admin_settings') }}" class="nav-link admin-link">Settings</a>
+          <a href="{{ url_for('admin_logout') }}" class="nav-link admin-link">Logout</a>
+        {% else %}
+          <a href="{{ url_for('admin_login') }}" class="nav-link admin-link">Login</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrapper content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash">
+          {% for category, message in messages %}
+            <li class="flash-item {{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <section class="footer-cta wrapper">
+    <div class="cta-left">
+      <div class="cta-title">Got any book recommendations?</div>
+      <a class="cta-button" href="mailto:">Get In Touch</a>
+    </div>
+    <div class="cta-right">
+      <div class="cta-line"></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrapper footer-bar">
+      <div class="footer-brand"></div>
+      <div class="footer-powered">
+        <a href="https://github.com/laznomad/BareBlog" class="bareblog-link" target="_blank" rel="noopener">this site runs on bareblog</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

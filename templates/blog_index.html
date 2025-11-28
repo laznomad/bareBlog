@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <h1 class="hero-title">{{ main_title }}</h1>
+  </section>
+
+  <section class="post-grid">
+    {% for post in posts %}
+      <article class="post-tile">
+        <h2 class="post-title">
+          <a href="{{ url_for('blog_post', slug=post.slug) }}">{{ post.title }}</a>
+        </h2>
+        <p class="post-excerpt">
+          {% if post.excerpt %}
+            {{ post.excerpt }}
+          {% else %}
+            {{ build_excerpt(post.content_html) }}
+          {% endif %}
+        </p>
+        <div class="post-meta">
+          {{ format_date(post.date) }}
+          {% if post.status != "publish" %}
+            · {{ post.status }}
+          {% endif %}
+        </div>
+      </article>
+    {% else %}
+      <p>No posts yet.</p>
+    {% endfor %}
+  </section>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="admin-toolbar">
+    <h1 class="page-title">Posts</h1>
+    <a class="btn" href="{{ url_for('admin_new_post') }}">New post</a>
+  </div>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for post in posts %}
+        <tr>
+          <td>{{ post.title }}</td>
+          <td>{{ post.status }}</td>
+          <td>{{ format_date(post.date) }}</td>
+          <td><a href="{{ url_for('admin_edit_post', slug=post.slug) }}">Edit</a></td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="4">No posts yet.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

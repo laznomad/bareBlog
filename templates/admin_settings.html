@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="admin-toolbar">
+    <h1 class="page-title">Settings</h1>
+    <a class="btn secondary" href="{{ url_for('admin_posts') }}">&larr; Back</a>
+  </div>
+
+  <form method="post" class="form-grid">
+    <div>
+      <label class="form-label" for="about_content">About content (HTML)</label>
+      <textarea id="about_content" name="about_content" class="form-control textarea" rows="12">{{ about_content }}</textarea>
+      <div class="help-text">Displayed on /about and used as the template style for posts.</div>
+    </div>
+
+    <div>
+      <label class="form-label" for="main_title">Main page title</label>
+      <input id="main_title" name="main_title" class="form-control" type="text" value="{{ main_title }}">
+      <div class="help-text">Shown as the hero headline on the homepage.</div>
+    </div>
+
+    <div>
+      <label class="form-label" for="nav_links">Header links (one per line)</label>
+      <textarea id="nav_links" name="nav_links" class="form-control textarea" rows="8">{{ nav_links_text }}</textarea>
+      <div class="help-text">Format: Label|URL|target (target optional; use _blank for new tab).</div>
+    </div>
+
+    <div>
+      <button class="btn" type="submit">Save settings</button>
+    </div>
+  </form>
+{% endblock %}

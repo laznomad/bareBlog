@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="home">
+    <h1 class="page-title">fabio.io</h1>
+    <p class="page-subtitle">{{ site_description }}</p>
+    <div class="home-actions">
+      <a class="btn" href="{{ url_for('blog_index') }}">Enter the blog</a>
+    </div>
+    <div class="home-card">
+      <h2>Contact</h2>
+      <p>/p>
+    </div>
+  </section>
+{% endblock %}

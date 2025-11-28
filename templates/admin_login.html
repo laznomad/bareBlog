@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1 class="page-title">Admin login</h1>
+  <form method="post" class="form-grid" action="{{ url_for('admin_login', next=request.args.get('next')) }}">
+    <div>
+      <label class="form-label" for="username">Email</label>
+      <input class="form-control" type="email" name="username" id="username" required>
+    </div>
+    <div>
+      <label class="form-label" for="password">Password</label>
+      <input class="form-control" type="password" name="password" id="password" required>
+    </div>
+    <div>
+      <button class="btn" type="submit">Sign in</button>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="admin-toolbar">
+    <h1 class="page-title">{{ "New post" if is_new else "Edit post" }}</h1>
+    <a class="btn secondary" href="{{ url_for('admin_posts') }}">&larr; Back</a>
+  </div>
+
+  <form method="post" class="form-grid">
+    <div>
+      <label class="form-label" for="title">Title</label>
+      <input class="form-control" type="text" id="title" name="title" value="{{ post.title }}" required>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="form-label" for="slug">Slug</label>
+        <input class="form-control" type="text" id="slug" name="slug" value="{{ post.slug }}">
+        <div class="help-text">Leave blank to auto-generate.</div>
+      </div>
+      <div>
+        <label class="form-label" for="date">Date</label>
+        <input class="form-control" type="text" id="date" name="date" value="{{ post.date }}">
+        <div class="help-text">Format: YYYY-MM-DDTHH:MM:SS</div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="form-label" for="status">Status</label>
+        <select class="form-control" id="status" name="status">
+          <option value="publish" {% if post.status == "publish" %}selected{% endif %}>Publish</option>
+          <option value="draft" {% if post.status == "draft" %}selected{% endif %}>Draft</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label" for="excerpt">Excerpt</label>
+        <textarea class="form-control textarea" id="excerpt" name="excerpt">{{ post.excerpt }}</textarea>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="form-label" for="tags">Tags</label>
+        <input class="form-control" type="text" id="tags" name="tags" value="{{ post.tags | join(', ') }}">
+        <div class="help-text">Comma-separated</div>
+      </div>
+      <div>
+        <label class="form-label" for="categories">Categories</label>
+        <input class="form-control" type="text" id="categories" name="categories" value="{{ post.categories | join(', ') }}">
+        <div class="help-text">Comma-separated</div>
+      </div>
+    </div>
+
+    <div>
+      <label class="form-label" for="content_markdown">Markdown (preferred)</label>
+      <textarea class="form-control textarea" id="content_markdown" name="content_markdown">{{ post.content_markdown }}</textarea>
+      <div class="help-text">If provided, Markdown will be rendered to HTML on save.</div>
+    </div>
+
+    <div>
+      <label class="form-label" for="content_html">HTML (keeps original WordPress content)</label>
+      <textarea class="form-control textarea" id="content_html" name="content_html">{{ post.content_html }}</textarea>
+      <div class="help-text">Used when Markdown is empty.</div>
+    </div>
+
+    <div>
+      <button class="btn" type="submit">Save post</button>
+    </div>
+  </form>
+
+  <script>
+    (function() {
+      const title = document.getElementById("title");
+      const slug = document.getElementById("slug");
+      let touched = slug.value.trim().length > 0;
+
+      const toSlug = (str) => str
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+
+      slug.addEventListener("input", () => {
+        touched = slug.value.trim().length > 0;
+      });
+
+      title.addEventListener("input", () => {
+        if (!touched) {
+          slug.value = toSlug(title.value);
+        }
+      });
+    })();
+  </script>
+{% endblock %}
