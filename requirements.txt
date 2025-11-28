@@ -1,0 +1,4 @@
+Flask>=3.0,<4
+Markdown>=3.6
+python-slugify>=8.0
+Pygments>=2.16
